@@ -149,6 +149,15 @@ window.RESUME_DATA = {
   ],
 
   projects: [
+    { name: 'ASL Calculator', stack: [], dates: 'Summer 2026',
+      bullets: ['— TBD —'],
+    },
+    { name: 'House Price Predictor', stack: [], dates: 'Summer 2026',
+      bullets: ['— TBD —'],
+    },
+    { name: 'AI-Augmented Scripting & Automations', stack: [], dates: 'Summer 2026',
+      bullets: ['— TBD —'],
+    },
     { name: 'Secure Distributed Messenger', stack: ['C#', '.NET', 'Docker', 'Git'], dates: 'Spring 2026',
       bullets: [
         'Responsible for the multi-threaded architecture of a secure messaging application built by a 4-person team (majority Deaf/HoH members); engineered separate background tasks for accepting connections and receiving messages per client, while keeping the main thread dedicated to user input and clean thread shutdown.',
