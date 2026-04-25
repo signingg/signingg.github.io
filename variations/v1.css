@@ -369,3 +369,78 @@
 @media (max-width: 720px) {
   .v1-certs-grid { grid-template-columns: 1fr; }
 }
+
+/* ── mobile ─────────────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .v1-root { font-size: 14px; }
+
+  .v1-shell { padding: 0 16px 60px; }
+
+  .v1-marquee { font-size: 11px; letter-spacing: 0.14em; }
+
+  /* identity stacks */
+  .v1-identity {
+    grid-template-columns: 1fr;
+    margin-top: 20px;
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+  .v1-id-main { padding: 20px; border-right: none; border-bottom: 3px solid var(--ink); }
+  .v1-id-side { padding: 18px 20px; }
+  .v1-id-name { font-size: clamp(40px, 12vw, 64px); }
+  .v1-id-tag { font-size: 16px; margin-bottom: 14px; }
+  .v1-id-obj { font-size: 13px; }
+  .v1-id-kv { flex-wrap: wrap; }
+
+  /* sections */
+  .v1-section { margin-top: 28px; }
+  .v1-h { font-size: 18px; padding: 5px 12px; }
+
+  /* education */
+  .v1-edu-top { flex-direction: column; gap: 10px; padding: 16px; }
+  .v1-edu-rt { text-align: left; }
+  .v1-edu-school { font-size: 18px; }
+  .v1-edu-course { padding: 14px 16px; }
+
+  /* skills */
+  .v1-skill-row { grid-template-columns: 1fr; }
+  .v1-skill-k { padding: 8px 12px; font-size: 11px; }
+  .v1-skill-v { padding: 10px 12px; }
+
+  /* experience */
+  .v1-xp { padding: 16px; }
+  .v1-xp-featured { box-shadow: 4px 4px 0 var(--ink); }
+  .v1-xp-head { flex-direction: column; gap: 8px; align-items: flex-start; }
+  .v1-xp-role { font-size: 18px; }
+  .v1-xp-dates { white-space: normal; align-self: flex-start; }
+  .v1-xp-bullets li { font-size: 13.5px; }
+  .v1-xp-proj-grid { grid-template-columns: 1fr; gap: 10px; }
+  .v1-proj-card { padding: 14px; }
+  .v1-proj-card-n { font-size: 18px; }
+
+  /* projects list */
+  .v1-projrow { padding: 16px; }
+  .v1-projrow-head { flex-direction: column; gap: 4px; }
+  .v1-projrow-n { font-size: 18px; }
+
+  /* contact */
+  .v1-contact-body { padding: 22px 18px; box-shadow: 5px 5px 0 var(--ink); }
+  .v1-contact-big { font-size: clamp(28px, 8vw, 40px); }
+  .v1-contact-links { font-size: 14px; gap: 10px; }
+  .v1-contact-link { word-break: break-all; }
+
+  /* certificates */
+  .v1-certs-grid { gap: 10px; }
+  .v1-cert-card { padding: 14px; min-height: 140px; }
+
+  /* footer */
+  .v1-footer { flex-wrap: wrap; gap: 10px; padding: 0 16px; text-align: center; }
+
+  /* keep tweaks panel from blocking content on small phones */
+  .twk-panel { width: calc(100vw - 24px) !important; right: 12px !important; bottom: 12px !important; }
+}
+
+@media (max-width: 380px) {
+  .v1-shell { padding: 0 12px 50px; }
+  .v1-id-name { font-size: clamp(34px, 13vw, 52px); }
+  .v1-h { font-size: 16px; }
+}
