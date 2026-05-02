@@ -116,17 +116,31 @@ function V1Projects({ d }) {
       <h2 className="v1-h">▸ PROJECTS</h2>
       <div className="v1-proj-list">
         {d.projects.map((p, i) => (
-          <div key={i} className="v1-projrow">
+          <div key={i} className={`v1-projrow ${p.stub ? 'v1-projrow-stub' : ''}`}>
             <div className="v1-projrow-head">
               <div className="v1-projrow-n">{p.name}</div>
               <div className="v1-projrow-d">{p.dates}</div>
             </div>
-            <div className="v1-projrow-stack">
-              {p.stack.map(s => <span key={s} className="v1-chip v1-chip-alt">{s}</span>)}
-            </div>
-            <ul className="v1-projrow-bullets">
-              {p.bullets.map((b, j) => <li key={j}>{strip(b)}</li>)}
-            </ul>
+            {p.stub ? (
+              <div className="v1-projrow-stub-body">
+                <div className="v1-projrow-stub-tag">▸ IN THE WORKS · SUMMER 2026</div>
+                {p.teaser && <div className="v1-projrow-teaser">{p.teaser}</div>}
+                <div className="v1-projrow-stub-lines">
+                  <div className="v1-cert-line v1-cert-line-1" />
+                  <div className="v1-cert-line v1-cert-line-2" />
+                  <div className="v1-cert-line v1-cert-line-3" />
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="v1-projrow-stack">
+                  {p.stack.map(s => <span key={s} className="v1-chip v1-chip-alt">{s}</span>)}
+                </div>
+                <ul className="v1-projrow-bullets">
+                  {p.bullets.map((b, j) => <li key={j}>{strip(b)}</li>)}
+                </ul>
+              </>
+            )}
           </div>
         ))}
       </div>
@@ -134,34 +148,85 @@ function V1Projects({ d }) {
   );
 }
 
-function V1Certificates({ title }) {
-  // Stubbed — no real certs yet. Three empty placeholder cards so the layout
-  // reads as intentional and the shape is obvious when real content lands.
-  const stubs = [
+function V1CertModal({ cert, onClose }) {
+  React.useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+  return (
+    <div className="v1-cert-modal" onClick={onClose}>
+      <div className="v1-cert-modal-box" onClick={(e) => e.stopPropagation()}>
+        <div className="v1-cert-modal-bar">
+          <div className="v1-cert-modal-title">
+            {cert.name} <span className="v1-cert-modal-meta">· {cert.issuer} · {cert.date}</span>
+          </div>
+          <div className="v1-cert-modal-actions">
+            <a className="v1-cert-modal-link" href={cert.verify} target="_blank" rel="noreferrer">verify ↗</a>
+            <a className="v1-cert-modal-link" href={cert.pdf} target="_blank" rel="noreferrer">open pdf ↗</a>
+            <button className="v1-cert-modal-close" onClick={onClose} aria-label="Close">✕</button>
+          </div>
+        </div>
+        <iframe className="v1-cert-modal-frame" src={cert.pdf} title={cert.name} />
+      </div>
+    </div>
+  );
+}
+
+function V1Certificates({ title, items }) {
+  const list = items && items.length ? items : [
     { slot: 'CERT · 01' },
     { slot: 'CERT · 02' },
     { slot: 'CERT · 03' },
   ];
+  const [open, setOpen] = React.useState(null);
   return (
     <section className="v1-section">
       <h2 className="v1-h">▸ {title || 'CERTIFICATES'}</h2>
-      <div className="v1-certs-note">
-        <span className="v1-certs-note-tag">STUB</span>
-        placeholder — content to be added
-      </div>
       <div className="v1-certs-grid">
-        {stubs.map((s, i) => (
-          <div key={i} className="v1-cert-card">
-            <div className="v1-cert-slot">{s.slot}</div>
-            <div className="v1-cert-body">
-              <div className="v1-cert-line v1-cert-line-1" />
-              <div className="v1-cert-line v1-cert-line-2" />
-              <div className="v1-cert-line v1-cert-line-3" />
-            </div>
-            <div className="v1-cert-foot">ISSUER · DATE</div>
-          </div>
-        ))}
+        {list.map((c, i) => {
+          const filled = !!c.name;
+          const Tag = filled ? 'button' : 'div';
+          const label = filled ? c.name.toUpperCase() : (c.slot || '');
+          return (
+            <Tag
+              key={i}
+              type={filled ? 'button' : undefined}
+              className={`v1-cert-card ${filled ? 'v1-cert-card-filled' : ''}`}
+              onClick={filled ? () => setOpen(c) : undefined}
+            >
+              <div className="v1-cert-slot">{label}</div>
+              {filled ? (
+                c.thumb ? (
+                  <div className="v1-cert-thumb-wrap">
+                    <img className="v1-cert-thumb" src={c.thumb} alt={c.name} />
+                  </div>
+                ) : (
+                  <div className="v1-cert-body">
+                    <div className="v1-cert-name">{c.name}</div>
+                    <span className="v1-cert-verify">view ↗</span>
+                  </div>
+                )
+              ) : (
+                <div className="v1-cert-body">
+                  <div className="v1-cert-line v1-cert-line-1" />
+                  <div className="v1-cert-line v1-cert-line-2" />
+                  <div className="v1-cert-line v1-cert-line-3" />
+                </div>
+              )}
+              <div className="v1-cert-foot">
+                {filled ? `${c.issuer.toUpperCase()} · ${c.date.toUpperCase()}` : 'ISSUER · DATE'}
+              </div>
+            </Tag>
+          );
+        })}
       </div>
+      {open && <V1CertModal cert={open} onClose={() => setOpen(null)} />}
     </section>
   );
 }
@@ -194,7 +259,7 @@ function V1RawGrid() {
   const rootRef = React.useRef(null);
   React.useEffect(() => { if (openProject) rootRef.current?.scrollTo({ top: 0, behavior: 'instant' }); }, [openProject]);
 
-  const certs = t.showCertificates ? <V1Certificates title={t.certificatesTitle} /> : null;
+  const certs = t.showCertificates ? <V1Certificates title={t.certificatesTitle} items={d.certificates} /> : null;
 
   return (
     <div ref={rootRef} className="v1-root">
