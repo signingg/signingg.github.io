@@ -178,13 +178,36 @@ function V1CertModal({ cert, onClose }) {
   );
 }
 
+function certFromHash(list) {
+  const m = (typeof location !== 'undefined' ? location.hash : '').match(/(?:^|#|&)cert=([^&]+)/);
+  if (!m) return null;
+  const id = decodeURIComponent(m[1]);
+  return list.find(c => c.certNo === id) || null;
+}
+
 function V1Certificates({ title, items }) {
   const list = items && items.length ? items : [
     { slot: 'CERT · 01' },
     { slot: 'CERT · 02' },
     { slot: 'CERT · 03' },
   ];
-  const [open, setOpen] = React.useState(null);
+  const [open, setOpenState] = React.useState(() => certFromHash(list));
+
+  React.useEffect(() => {
+    const onPop = () => setOpenState(certFromHash(list));
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, [list]);
+
+  const setOpen = (c) => {
+    if (c) {
+      history.pushState(null, '', `#cert=${encodeURIComponent(c.certNo)}`);
+      setOpenState(c);
+    } else {
+      history.back();
+    }
+  };
+
   return (
     <section className="v1-section">
       <h2 className="v1-h">▸ {title || 'CERTIFICATES'}</h2>
@@ -252,12 +275,42 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "certificatesPosition": "after-projects"
 }/*EDITMODE-END*/;
 
+function findProjectById(d, id) {
+  if (!id) return null;
+  const all = (d.experience || []).flatMap(x => x.projects || []);
+  return all.find(p => p.id === id) || null;
+}
+function projectFromHash(d) {
+  const m = (typeof location !== 'undefined' ? location.hash : '').match(/(?:^|#|&)project=([^&]+)/);
+  return m ? findProjectById(d, decodeURIComponent(m[1])) : null;
+}
+
 function V1RawGrid() {
   const d = window.RESUME_DATA;
-  const [openProject, setOpenProject] = React.useState(null);
+  const [openProject, setOpenProjectState] = React.useState(() => projectFromHash(d));
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const rootRef = React.useRef(null);
+
+  React.useEffect(() => {
+    // Deep-linked hash? Inject a clean base entry beneath so 'back' closes
+    // the view instead of leaving the site.
+    if (location.hash) {
+      const h = location.hash;
+      history.replaceState(history.state, '', location.pathname + location.search);
+      history.pushState(null, '', h);
+    }
+    const onPop = () => setOpenProjectState(projectFromHash(d));
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, [d]);
+
   React.useEffect(() => { if (openProject) rootRef.current?.scrollTo({ top: 0, behavior: 'instant' }); }, [openProject]);
+
+  const openProjectNav = (p) => {
+    history.pushState(null, '', `#project=${encodeURIComponent(p.id)}`);
+    setOpenProjectState(p);
+  };
+  const closeProjectNav = () => history.back();
 
   const certs = t.showCertificates ? <V1Certificates title={t.certificatesTitle} items={d.certificates} /> : null;
 
@@ -273,14 +326,14 @@ function V1RawGrid() {
 
       {openProject ? (
         <div className="v1-shell">
-          <ProjectDetail project={openProject} variant="v1" onBack={() => setOpenProject(null)} />
+          <ProjectDetail project={openProject} variant="v1" onBack={closeProjectNav} />
         </div>
       ) : (
         <div className="v1-shell">
           <V1Identity d={d} />
           <V1Education d={d} />
           {t.certificatesPosition === 'after-education' && certs}
-          <V1Experience d={d} onOpen={setOpenProject} />
+          <V1Experience d={d} onOpen={openProjectNav} />
           {t.certificatesPosition === 'after-experience' && certs}
           <V1Projects d={d} />
           {t.certificatesPosition === 'after-projects' && certs}
