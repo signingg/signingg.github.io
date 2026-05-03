@@ -6,7 +6,7 @@ function V1Identity({ d }) {
   return (
     <div className="v1-identity">
       <div className="v1-id-main">
-        <div className="v1-id-meta">PORTFOLIO / 2026 / v1.RAW</div>
+        <div className="v1-id-meta">PORTFOLIO / 2026</div>
         <h1 className="v1-id-name">{d.identity.name}</h1>
         <div className="v1-id-tag">{d.identity.tagline}</div>
         <p className="v1-id-obj">{d.identity.objective}</p>
