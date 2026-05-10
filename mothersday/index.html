@@ -260,6 +260,21 @@
     margin-top: 4px;
     letter-spacing: 1px;
   }
+
+  /* Chinese translation lines sit just below their English counterparts */
+  /* 中文翻译显示在对应英文下方 */
+  .zh {
+    display: block;
+    font-size: 0.78em;
+    opacity: 0.82;
+    margin-top: 2px;
+    font-weight: 500;
+    font-family: 'Quicksand', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .hero h1 .zh { font-family: inherit; font-size: 0.5em; opacity: 0.85; margin-top: 6px; }
+  .divider .zh { letter-spacing: 1px; }
 </style>
 </head>
 <body>
@@ -274,18 +289,22 @@
 <main class="wrap">
 
   <header class="hero">
-    <div class="eyebrow">to the best mom 🌷</div>
-    <h1>Happy Mother's Day</h1>
-    <div class="date">May 10 · 2026</div>
+    <div class="eyebrow">to the best mom 🌷<span class="zh">致最棒的妈妈 🌷</span></div>
+    <h1>Happy Mother's Day<span class="zh">母亲节快乐</span></h1>
+    <div class="date">May 10 · 2026<span class="zh">2026 年 5 月 10 日</span></div>
     <p class="blurb">Thanks for everything you do — every meal, every ride, every little thing.
-      I made you a tiny game. There's a real present hiding somewhere in the house.</p>
+      I made you a tiny game. There's a real present hiding somewhere in the house.
+      <span class="zh">谢谢您所做的一切——每一顿饭、每一次接送、每一件小事。我为您做了一个小游戏。家里某处藏着一份真正的礼物。</span>
+    </p>
   </header>
 
-  <div class="divider">the game</div>
+  <div class="divider">the game<span class="zh">小游戏</span></div>
 
   <section class="game">
-    <h2>Find the Present 🎁</h2>
-    <p class="sub">Tap the rooms to search. Only one is holding the surprise…</p>
+    <h2>Find the Present 🎁<span class="zh" style="font-size:0.55em">寻找礼物 🎁</span></h2>
+    <p class="sub">Tap the rooms to search. Only one is holding the surprise…
+      <span class="zh">点击房间进行寻找，只有一个房间藏着惊喜……</span>
+    </p>
 
     <div class="rooms" id="rooms"></div>
 
@@ -293,37 +312,55 @@
 
     <div id="reveal"></div>
 
-    <button class="reset" id="reset" hidden>↻ Search again</button>
+    <button class="reset" id="reset" hidden>↻ Search again<span class="zh">↻ 再找一次</span></button>
   </section>
 
   <footer class="sign">
-    Love you, Mom 💖
-    <small>— Donald</small>
+    Love you, Mom 💖<span class="zh">妈妈，我爱您 💖</span>
+    <small>— Donald<span class="zh">— 唐纳德</span></small>
   </footer>
 </main>
 
 <script>
   // ─────────────────────────────────────────────────────────────
-  // CONFIG — edit these two lines and you're done.
+  // CONFIG — edit these three lines and you're done.
+  // 配置——只需修改下面这三行即可。
   // ─────────────────────────────────────────────────────────────
-  const WINNING_ROOM = 'kitchen';      // which room hides the gift (must match an id below)
-  const REAL_HINT    = 'Check inside the cookie jar on the top shelf.'; // shown when she finds it
-  const PRIZE_TEXT   = 'A $75 Zift gift card 💳';
+  // which room hides the gift (must match an id below)
+  // 礼物藏在哪个房间（必须与下方某个 id 一致）
+  const WINNING_ROOM = 'kitchen';
+  // shown when she finds it (the real-world hiding spot)
+  // 找到时显示的提示（现实中礼物的具体位置）
+  const REAL_HINT    = 'Check inside one of the kitchen cabinets upstairs.<br><span class="zh">请检查楼上的一个厨房柜子。</span>';
+  // the prize description
+  // 奖品描述
+  const PRIZE_TEXT   = 'A $75 Zift gift card 💳<br><span class="zh">一张 75 美元的 Zift 礼品卡 💳</span>';
   // ─────────────────────────────────────────────────────────────
 
+  // List of rooms shown on the page. Each `cold` line is the
+  // message displayed when she picks the wrong room.
+  // 页面上显示的房间列表。每个 cold 字段是选错房间时显示的提示文字。
   const ROOMS = [
-    { id: 'kitchen',     name: 'Kitchen',      emoji: '🍳', cold: 'Just the smell of coffee… no present here.' },
-    { id: 'livingroom',  name: 'Living Room',  emoji: '🛋️', cold: 'Only the couch cushions and the TV remote.' },
-    { id: 'bedroom',     name: 'Bedroom',      emoji: '🛏️', cold: 'Pillows, blankets, and a snoring dad. Nothing else.' },
-    { id: 'bathroom',    name: 'Bathroom',     emoji: '🛁', cold: 'Just bubbles and your favorite candle.' },
-    { id: 'garden',      name: 'Garden',       emoji: '🌷', cold: 'The tulips are pretty, but no gift here.' },
-    { id: 'garage',      name: 'Garage',       emoji: '🚗', cold: 'Boxes, tools… and definitely no gift.' },
+    { id: 'kitchen',     name: 'Kitchen<span class="zh">厨房</span>',         emoji: '🍳',
+      cold: 'Just the smell of coffee… no present here.<br><span class="zh">只闻到咖啡的香味……这里没有礼物。</span>' },
+    { id: 'livingroom',  name: 'Living Room<span class="zh">客厅</span>',     emoji: '🛋️',
+      cold: 'Only the couch cushions and the TV remote.<br><span class="zh">只有沙发垫和电视遥控器。</span>' },
+    { id: 'bedroom',     name: 'Bedroom<span class="zh">卧室</span>',         emoji: '🛏️',
+      cold: 'Pillows, blankets, and a snoring dad. Nothing else.<br><span class="zh">只有枕头、被子，和打呼噜的爸爸，别无他物。</span>' },
+    { id: 'bathroom',    name: 'Bathroom<span class="zh">浴室</span>',        emoji: '🛁',
+      cold: 'Just bubbles and your favorite candle.<br><span class="zh">只有泡泡和您最爱的蜡烛。</span>' },
+    { id: 'garden',      name: 'Garden<span class="zh">花园</span>',          emoji: '🌷',
+      cold: 'The tulips are pretty, but no gift here.<br><span class="zh">郁金香很漂亮，但这里没有礼物。</span>' },
+    { id: 'garage',      name: 'Garage<span class="zh">车库</span>',          emoji: '🚗',
+      cold: 'Boxes, tools… and definitely no gift.<br><span class="zh">箱子、工具……肯定没有礼物。</span>' },
   ];
 
+  // Progressively warmer hints as she tries more rooms.
+  // 随着尝试次数增加，逐渐变热的提示。
   const WARM_HINTS = [
-    'Getting warmer… try somewhere you spend a lot of time.',
-    'So close! Think of a room with a sweet smell.',
-    'Almost! It\'s near something you use every morning.',
+    'Getting warmer… try somewhere you spend a lot of time.<br><span class="zh">越来越热了……试试您常待的地方。</span>',
+    'So close! Think of a room with a sweet smell.<br><span class="zh">很接近了！想想一间有香味的房间。</span>',
+    'Almost! It\'s near something you use every morning.<br><span class="zh">就差一点！它在您每天早上都会用到的东西附近。</span>',
   ];
 
   const grid    = document.getElementById('rooms');
@@ -371,7 +408,7 @@
     reveal.innerHTML = `
       <div class="reveal" role="alert">
         <div class="gift" aria-hidden="true">🎁</div>
-        <h3>You found it!</h3>
+        <h3>You found it!<span class="zh" style="font-size:0.55em">您找到了！</span></h3>
         <div class="prize">${PRIZE_TEXT}</div>
         <p class="hint">${REAL_HINT}</p>
       </div>`;
