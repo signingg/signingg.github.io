@@ -109,25 +109,36 @@ function V1Experience({ d, onOpen }) {
   );
 }
 
-function V1Projects({ d }) {
-  const strip = (s) => typeof s === 'string' ? s.replace(/["“”]/g, '') : s;
+function V1Projects({ d, onOpen }) {
+  const strip = (s) => typeof s === 'string' ? s.replace(/[“””]/g, '') : s;
   return (
-    <section className="v1-section">
-      <h2 className="v1-h">▸ PROJECTS</h2>
-      <div className="v1-proj-list">
+    <section className=”v1-section”>
+      <h2 className=”v1-h”>▸ PROJECTS</h2>
+      <div className=”v1-proj-list”>
         {d.projects.map((p, i) => (
           <div key={i} className={`v1-projrow ${(p.stub || p.inProgress) ? 'v1-projrow-stub' : ''} ${p.featured ? 'v1-projrow-featured' : ''}`}>
             {p.inProgress ? (
               <>
-                <div className="v1-projrow-ip-head">
-                  <span className="v1-projrow-n">{p.name}</span>
-                  {p.stack.length > 0 && (
-                    <span className="v1-projrow-ip-meta">, {p.stack.join(', ')} — <em>In Progress</em></span>
-                  )}
+                <div className=”v1-projrow-head”>
+                  <div className=”v1-projrow-n”>{p.name}</div>
+                  <div className=”v1-projrow-d”>{p.dates}</div>
                 </div>
-                <ul className="v1-projrow-bullets">
+                <div className=”v1-projrow-stub-body”>
+                  <div className=”v1-projrow-stub-tag”>▸ IN PROGRESS</div>
+                </div>
+                <div className=”v1-projrow-stack”>
+                  {p.stack.map(s => <span key={s} className=”v1-chip v1-chip-alt”>{s}</span>)}
+                </div>
+                <ul className=”v1-projrow-bullets”>
                   {p.bullets.map((b, j) => <li key={j}>{strip(b)}</li>)}
                 </ul>
+                {p.id && onOpen && (
+                  <div className=”v1-projrow-explore”>
+                    <button className=”v1-projrow-explore-btn” onClick={() => onOpen(p)}>
+                      ▸ EXPLORE THE AGENTS →
+                    </button>
+                  </div>
+                )}
               </>
             ) : (
               <>
@@ -293,8 +304,9 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 function findProjectById(d, id) {
   if (!id) return null;
-  const all = (d.experience || []).flatMap(x => x.projects || []);
-  return all.find(p => p.id === id) || null;
+  const expProjects = (d.experience || []).flatMap(x => x.projects || []);
+  const standaloneProjects = (d.projects || []).filter(p => p.id);
+  return [...expProjects, ...standaloneProjects].find(p => p.id === id) || null;
 }
 function projectFromHash(d) {
   const m = (typeof location !== 'undefined' ? location.hash : '').match(/(?:^|#|&)project=([^&]+)/);
@@ -351,7 +363,7 @@ function V1RawGrid() {
           {t.certificatesPosition === 'after-education' && certs}
           <V1Experience d={d} onOpen={openProjectNav} />
           {t.certificatesPosition === 'after-experience' && certs}
-          <V1Projects d={d} />
+          <V1Projects d={d} onOpen={openProjectNav} />
           {t.certificatesPosition === 'after-projects' && certs}
           <V1Skills d={d} />
           {t.certificatesPosition === 'after-skills' && certs}

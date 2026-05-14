@@ -187,13 +187,17 @@ window.RESUME_DATA = {
   ],
 
   projects: [
-    { name: 'The Foundry (PoD Automation System)', stack: ['Python', 'Claude API', 'Claude Code'], dates: 'Summer 2026', inProgress: true, featured: true,
+    { id: 'foundry', name: 'The Foundry (PoD Automation System)', stack: ['Python', 'Claude API', 'Claude Code'], dates: 'Summer 2026', inProgress: true, featured: true,
       teaser: 'Building a 7-agent automated Print-on-Demand business.',
+      kicker: 'Personal project · Summer 2026',
+      tag: '7-agent automated Print-on-Demand system',
       bullets: [
         'Python scheduler manages agent handoffs across Orchestrator, Research, Operations, Comms, Treasury, Analyst, and Media agents.',
         'Cost-tiered model strategy across Haiku, Sonnet, and Opus; live sandbox integrations with eBay, Shopify, and Printify.',
         'Currently in chaos engineering phase validating agent behavior and enforcing financial guardrails ($400/mo API cap, $25/day ad spend limit).',
       ],
+      clips: [],
+      story: [],
     },
     { name: 'Secure Distributed Messenger', stack: ['C#', '.NET', 'Docker', 'Git'], dates: 'Spring 2026',
       bullets: [

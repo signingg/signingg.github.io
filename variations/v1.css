@@ -303,9 +303,20 @@
   padding: 4px 0 2px;
 }
 .v1-projrow-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
-.v1-projrow-ip-head { margin-bottom: 10px; }
-.v1-projrow-ip-head .v1-projrow-n { display: inline; }
-.v1-projrow-ip-meta { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.02em; }
+.v1-projrow-explore { margin-top: 14px; }
+.v1-projrow-explore-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: var(--ink);
+  color: var(--accent-3);
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: transform .1s, box-shadow .1s;
+}
+.v1-projrow-explore-btn:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--accent-2); }
 .v1-projrow-n { font-family: 'Archivo Black', sans-serif; font-size: 20px; }
 .v1-projrow-d { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
 .v1-projrow-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
