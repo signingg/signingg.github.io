@@ -133,9 +133,13 @@ function V1Projects({ d, onOpen }) {
                   {p.bullets.map((b, j) => <li key={j}>{strip(b)}</li>)}
                 </ul>
                 {p.id && onOpen && (
-                  <div className="v1-projrow-explore">
-                    <button className="v1-projrow-explore-btn" onClick={() => onOpen(p)}>
-                      ▸ EXPLORE THE AGENTS →
+                  <div className="v1-xp-projects">
+                    <div className="v1-xp-projects-h">CLICK TO EXPLORE FOUNDRY →</div>
+                    <button className="v1-proj-card" style={{width: '100%'}} onClick={() => onOpen(p)}>
+                      <div className="v1-proj-card-n" style={{fontSize: '16px'}}>{p.name}</div>
+                      <div className="v1-proj-card-t">{p.tag}</div>
+                      <div className="v1-proj-card-k">{p.kicker}</div>
+                      <div className="v1-proj-card-cta">explore slides ↗</div>
                     </button>
                   </div>
                 )}
