@@ -187,7 +187,7 @@ window.RESUME_DATA = {
   ],
 
   projects: [
-    { name: 'The Foundry (PoD Automation System)', stack: ['Python', 'Claude API', 'Claude Code'], dates: 'Summer 2026', stub: true,
+    { name: 'The Foundry (PoD Automation System)', stack: ['Python', 'Claude API', 'Claude Code'], dates: 'Summer 2026', inProgress: true, featured: true,
       teaser: 'Building a 7-agent automated Print-on-Demand business.',
       bullets: [
         'Python scheduler manages agent handoffs across Orchestrator, Research, Operations, Comms, Treasury, Analyst, and Media agents.',

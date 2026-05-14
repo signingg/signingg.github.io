@@ -116,29 +116,45 @@ function V1Projects({ d }) {
       <h2 className="v1-h">▸ PROJECTS</h2>
       <div className="v1-proj-list">
         {d.projects.map((p, i) => (
-          <div key={i} className={`v1-projrow ${p.stub ? 'v1-projrow-stub' : ''}`}>
-            <div className="v1-projrow-head">
-              <div className="v1-projrow-n">{p.name}</div>
-              <div className="v1-projrow-d">{p.dates}</div>
-            </div>
-            {p.stub ? (
-              <div className="v1-projrow-stub-body">
-                <div className="v1-projrow-stub-tag">▸ IN THE WORKS · SUMMER 2026</div>
-                {p.teaser && <div className="v1-projrow-teaser">{p.teaser}</div>}
-                <div className="v1-projrow-stub-lines">
-                  <div className="v1-cert-line v1-cert-line-1" />
-                  <div className="v1-cert-line v1-cert-line-2" />
-                  <div className="v1-cert-line v1-cert-line-3" />
-                </div>
-              </div>
-            ) : (
+          <div key={i} className={`v1-projrow ${(p.stub || p.inProgress) ? 'v1-projrow-stub' : ''} ${p.featured ? 'v1-projrow-featured' : ''}`}>
+            {p.inProgress ? (
               <>
-                <div className="v1-projrow-stack">
-                  {p.stack.map(s => <span key={s} className="v1-chip v1-chip-alt">{s}</span>)}
+                <div className="v1-projrow-ip-head">
+                  <span className="v1-projrow-n">{p.name}</span>
+                  {p.stack.length > 0 && (
+                    <span className="v1-projrow-ip-meta">, {p.stack.join(', ')} — <em>In Progress</em></span>
+                  )}
                 </div>
                 <ul className="v1-projrow-bullets">
                   {p.bullets.map((b, j) => <li key={j}>{strip(b)}</li>)}
                 </ul>
+              </>
+            ) : (
+              <>
+                <div className="v1-projrow-head">
+                  <div className="v1-projrow-n">{p.name}</div>
+                  <div className="v1-projrow-d">{p.dates}</div>
+                </div>
+                {p.stub ? (
+                  <div className="v1-projrow-stub-body">
+                    <div className="v1-projrow-stub-tag">▸ IN THE WORKS · SUMMER 2026</div>
+                    {p.teaser && <div className="v1-projrow-teaser">{p.teaser}</div>}
+                    <div className="v1-projrow-stub-lines">
+                      <div className="v1-cert-line v1-cert-line-1" />
+                      <div className="v1-cert-line v1-cert-line-2" />
+                      <div className="v1-cert-line v1-cert-line-3" />
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="v1-projrow-stack">
+                      {p.stack.map(s => <span key={s} className="v1-chip v1-chip-alt">{s}</span>)}
+                    </div>
+                    <ul className="v1-projrow-bullets">
+                      {p.bullets.map((b, j) => <li key={j}>{strip(b)}</li>)}
+                    </ul>
+                  </>
+                )}
               </>
             )}
           </div>
