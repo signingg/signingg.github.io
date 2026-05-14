@@ -67,7 +67,7 @@ function V1Skills({ d }) {
 }
 
 function V1Experience({ d, onOpen }) {
-  const strip = (s) => typeof s === 'string' ? s.replace(/["“”]/g, '') : s;
+  const strip = (s) => typeof s === 'string' ? s.replace(/["""]/g, '') : s;
   return (
     <section className="v1-section">
       <h2 className="v1-h">▸ EXPERIENCE</h2>
@@ -110,31 +110,31 @@ function V1Experience({ d, onOpen }) {
 }
 
 function V1Projects({ d, onOpen }) {
-  const strip = (s) => typeof s === 'string' ? s.replace(/[“””]/g, '') : s;
+  const strip = (s) => typeof s === 'string' ? s.replace(/["""]/g, '') : s;
   return (
-    <section className=”v1-section”>
-      <h2 className=”v1-h”>▸ PROJECTS</h2>
-      <div className=”v1-proj-list”>
+    <section className="v1-section">
+      <h2 className="v1-h">▸ PROJECTS</h2>
+      <div className="v1-proj-list">
         {d.projects.map((p, i) => (
           <div key={i} className={`v1-projrow ${(p.stub || p.inProgress) ? 'v1-projrow-stub' : ''} ${p.featured ? 'v1-projrow-featured' : ''}`}>
             {p.inProgress ? (
               <>
-                <div className=”v1-projrow-head”>
-                  <div className=”v1-projrow-n”>{p.name}</div>
-                  <div className=”v1-projrow-d”>{p.dates}</div>
+                <div className="v1-projrow-head">
+                  <div className="v1-projrow-n">{p.name}</div>
+                  <div className="v1-projrow-d">{p.dates}</div>
                 </div>
-                <div className=”v1-projrow-stub-body”>
-                  <div className=”v1-projrow-stub-tag”>▸ IN PROGRESS</div>
+                <div className="v1-projrow-stub-body">
+                  <div className="v1-projrow-stub-tag">▸ IN PROGRESS</div>
                 </div>
-                <div className=”v1-projrow-stack”>
-                  {p.stack.map(s => <span key={s} className=”v1-chip v1-chip-alt”>{s}</span>)}
+                <div className="v1-projrow-stack">
+                  {p.stack.map(s => <span key={s} className="v1-chip v1-chip-alt">{s}</span>)}
                 </div>
-                <ul className=”v1-projrow-bullets”>
+                <ul className="v1-projrow-bullets">
                   {p.bullets.map((b, j) => <li key={j}>{strip(b)}</li>)}
                 </ul>
                 {p.id && onOpen && (
-                  <div className=”v1-projrow-explore”>
-                    <button className=”v1-projrow-explore-btn” onClick={() => onOpen(p)}>
+                  <div className="v1-projrow-explore">
+                    <button className="v1-projrow-explore-btn" onClick={() => onOpen(p)}>
                       ▸ EXPLORE THE AGENTS →
                     </button>
                   </div>

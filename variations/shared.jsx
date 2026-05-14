@@ -51,7 +51,7 @@ function Clip({ clip, accent = '#FFD400', textOnVideo = '#000' }) {
 
 function StoryBlock({ block, variant = 'v1' }) {
   // Strip straight and curly double-quote characters from the prose.
-  const stripQuotes = (s) => typeof s === 'string' ? s.replace(/["“”]/g, '') : s;
+  const stripQuotes = (s) => typeof s === 'string' ? s.replace(/["""]/g, '') : s;
   return (
     <div className={`nb-story nb-story-${variant}`}>
       <h4 className="nb-story-h">{block.h}</h4>
