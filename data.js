@@ -187,17 +187,13 @@ window.RESUME_DATA = {
   ],
 
   projects: [
-    { name: 'ASL Calculator', stack: [], dates: 'Summer 2026', stub: true,
-      teaser: 'Computer-vision sign-language → arithmetic, end-to-end.',
-      bullets: [],
-    },
-    { name: 'House Price Predictor', stack: [], dates: 'Summer 2026', stub: true,
-      teaser: 'Regression model practice.',
-      bullets: [],
-    },
-    { name: 'AI-Augmented Scripting & Automations', stack: [], dates: 'Summer 2026', stub: true,
-      teaser: 'A working library of LLM-driven CLIs for the day-to-day grind.',
-      bullets: [],
+    { name: 'The Foundry (PoD Automation System)', stack: ['Python', 'Claude API', 'Claude Code'], dates: 'Summer 2026', stub: true,
+      teaser: 'Building a 7-agent automated Print-on-Demand business.',
+      bullets: [
+        'Python scheduler manages agent handoffs across Orchestrator, Research, Operations, Comms, Treasury, Analyst, and Media agents.',
+        'Cost-tiered model strategy across Haiku, Sonnet, and Opus; live sandbox integrations with eBay, Shopify, and Printify.',
+        'Currently in chaos engineering phase validating agent behavior and enforcing financial guardrails ($400/mo API cap, $25/day ad spend limit).',
+      ],
     },
     { name: 'Secure Distributed Messenger', stack: ['C#', '.NET', 'Docker', 'Git'], dates: 'Spring 2026',
       bullets: [
