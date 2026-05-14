@@ -63,11 +63,75 @@ function StoryBlock({ block, variant = 'v1' }) {
   );
 }
 
+function PdfSlideshow({ src, count }) {
+  const [page, setPage] = React.useState(1);
+  const canvasRef = React.useRef(null);
+  const pdfRef = React.useRef(null);
+  const renderingRef = React.useRef(false);
+
+  const renderPage = React.useCallback((num) => {
+    if (!pdfRef.current || !canvasRef.current || renderingRef.current) return;
+    renderingRef.current = true;
+    pdfRef.current.getPage(num).then(p => {
+      const viewport = p.getViewport({ scale: window.devicePixelRatio >= 2 ? 2.0 : 1.6 });
+      const canvas = canvasRef.current;
+      if (!canvas) { renderingRef.current = false; return; }
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      p.render({ canvasContext: canvas.getContext('2d'), viewport }).promise.then(() => {
+        renderingRef.current = false;
+      });
+    });
+  }, []);
+
+  React.useEffect(() => {
+    if (typeof pdfjsLib === 'undefined') return;
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    pdfjsLib.getDocument(src).promise.then(pdf => {
+      pdfRef.current = pdf;
+      renderPage(1);
+    });
+  }, [src, renderPage]);
+
+  const go = React.useCallback((dir) => {
+    setPage(prev => {
+      const next = Math.min(Math.max(prev + dir, 1), count);
+      setTimeout(() => renderPage(next), 0);
+      return next;
+    });
+  }, [count, renderPage]);
+
+  React.useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'ArrowRight') go(1);
+      if (e.key === 'ArrowLeft') go(-1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [go]);
+
+  return (
+    <div className="nb-pdf-slideshow">
+      <canvas ref={canvasRef} className="nb-pdf-canvas" />
+      <div className="nb-pdf-nav">
+        <button className="nb-pdf-btn" onClick={() => go(-1)} disabled={page === 1}>← prev</button>
+        <span className="nb-pdf-counter">{page} / {count}</span>
+        <button className="nb-pdf-btn" onClick={() => go(1)} disabled={page === count}>next →</button>
+      </div>
+    </div>
+  );
+}
+
 function ProjectDetail({ project, variant, onBack }) {
+  const hasSlides = project.slides && project.slides.src;
+  const hasClips = project.clips && project.clips.length > 0;
+  const hasStory = project.story && project.story.length > 0;
+
   return (
     <div className={`nb-detail nb-detail-${variant}`}>
       <button className="nb-back" onClick={onBack}>
-        ← back to experience
+        ← back
       </button>
 
       <div className="nb-detail-head">
@@ -76,20 +140,31 @@ function ProjectDetail({ project, variant, onBack }) {
         <div className="nb-detail-tag">{project.tag}</div>
       </div>
 
-      <section className="nb-detail-clips">
-        <div className="nb-section-label">▼ demo clips · {project.clips.length}</div>
-        <div className="nb-clip-note">{project.clipsNote}</div>
-        <div className="nb-clip-grid">
-          {project.clips.map(c => <Clip key={c.label} clip={c} />)}
-        </div>
-      </section>
+      {hasSlides && (
+        <section className="nb-detail-slides">
+          <div className="nb-section-label">▼ architecture slides · {project.slides.count}</div>
+          <PdfSlideshow src={project.slides.src} count={project.slides.count} />
+        </section>
+      )}
 
-      <section className="nb-detail-story">
-        <div className="nb-section-label">▼ how it went down</div>
-        <div className="nb-story-body">
-          {project.story.map((b, i) => <StoryBlock key={i} block={b} variant={variant} />)}
-        </div>
-      </section>
+      {!hasSlides && hasClips && (
+        <section className="nb-detail-clips">
+          <div className="nb-section-label">▼ demo clips · {project.clips.length}</div>
+          <div className="nb-clip-note">{project.clipsNote}</div>
+          <div className="nb-clip-grid">
+            {project.clips.map(c => <Clip key={c.label} clip={c} />)}
+          </div>
+        </section>
+      )}
+
+      {hasStory && (
+        <section className="nb-detail-story">
+          <div className="nb-section-label">▼ how it went down</div>
+          <div className="nb-story-body">
+            {project.story.map((b, i) => <StoryBlock key={i} block={b} variant={variant} />)}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
