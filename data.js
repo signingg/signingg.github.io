@@ -15,7 +15,7 @@ window.RESUME_DATA = {
     where: 'Rochester, NY',
     degree: 'Bachelor of Science in Computer Science',
     graduation: 'Expected Spring 2028',
-    gpa: '3.1',
+    gpa: '3.19',
     coursework: [
       'Computer Science for AP Students',
       'Principles of Data Management',
