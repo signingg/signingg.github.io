@@ -196,7 +196,7 @@ window.RESUME_DATA = {
         'Cost-tiered model strategy across Haiku, Sonnet, and Opus; live sandbox integrations with eBay, Shopify, and Printify.',
         'Currently in chaos engineering phase validating agent behavior and enforcing financial guardrails ($400/mo API cap, $25/day ad spend limit).',
       ],
-      slides: { src: 'media/foundry/foundry-slides.pdf', count: 14 },
+      slides: { src: 'media/foundry/Foundry_Autonomous_Engineering.pdf', count: 14 },
       story: [
         { h: 'The hypothesis', p: 'How far can an LLM operate a real Print-on-Demand business with minimal human involvement? The Foundry is a live test against real APIs — not a demo.' },
         { h: 'The architecture', p: 'Seven agents coordinate via asynchronous file-based handoffs. The Orchestrator runs every 30 minutes; downstream agents run on their own schedules. No agent can block another.' },
