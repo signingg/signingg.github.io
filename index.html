@@ -8,10 +8,18 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=1" />
 
 <link rel="stylesheet" href="variations/shared.css" />
-<link rel="stylesheet" href="variations/v1.css?v=3" />
+<link rel="stylesheet" href="variations/v1.css?v=4" />
 
+<script>
+  // Apply persisted theme before paint to avoid flash
+  try {
+    var __t = localStorage.getItem('theme');
+    if (__t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+</script>
 <style>
   html, body { margin: 0; padding: 0; background: #ece7d7; font-family: 'Space Grotesk', sans-serif; }
+  html[data-theme="dark"], html[data-theme="dark"] body { background: #1f1530; }
   #root, .v1-root { min-height: 100vh; }
   .v1-root { overflow-y: visible; height: auto; }
 </style>
@@ -27,7 +35,7 @@
 <script src="data.js"></script>
 <script type="text/babel" src="variations/tweaks-panel.jsx?v=3"></script>
 <script type="text/babel" src="variations/shared.jsx?v=3"></script>
-<script type="text/babel" src="variations/v1-raw-grid.jsx?v=3"></script>
+<script type="text/babel" src="variations/v1-raw-grid.jsx?v=4"></script>
 
 <script type="text/babel" data-presets="env,react">
 ReactDOM.createRoot(document.getElementById('root')).render(<V1RawGrid />);

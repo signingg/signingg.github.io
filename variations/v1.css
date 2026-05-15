@@ -621,3 +621,84 @@
   .v1-id-name { font-size: clamp(34px, 13vw, 52px); }
   .v1-h { font-size: 16px; }
 }
+
+/* ── theme toggle button ─────────────────────────────────────── */
+.v1-theme-toggle {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  z-index: 100;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--accent-3);
+  border: 2px solid var(--ink);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: transform .1s, box-shadow .1s;
+  box-shadow: 3px 3px 0 var(--accent);
+}
+.v1-theme-toggle:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--accent); }
+@media (max-width: 760px) {
+  .v1-theme-toggle { top: 10px; right: 10px; font-size: 10px; padding: 5px 9px; }
+}
+
+/* ── DARK MODE (semi-dark purple) ────────────────────────────── */
+.v1-root.dark {
+  --bg: #1f1530;
+  --accent: #a78bfa;
+  --accent-2: #ff7a85;
+  --accent-3: #ffd95e;
+  color: #ece7d7;
+}
+.v1-root.dark::before { opacity: 0.18; }
+
+.v1-root.dark .v1-identity,
+.v1-root.dark .v1-edu,
+.v1-root.dark .v1-skills,
+.v1-root.dark .v1-xp,
+.v1-root.dark .v1-projrow,
+.v1-root.dark .v1-proj-card,
+.v1-root.dark .v1-cert-card,
+.v1-root.dark .v1-cert-modal-box,
+.v1-root.dark .v1-xp-reflection {
+  background: #3a2d5c;
+  color: #ece7d7;
+}
+.v1-root.dark .v1-xp-featured,
+.v1-root.dark .v1-projrow-featured { background: var(--accent-3); color: var(--ink); }
+.v1-root.dark .v1-chip-alt { background: #3a2d5c; color: #ece7d7; }
+
+/* dark blocks (marquee, headers, skill-k, dates) keep dark bg + light text — still readable */
+/* yellow-bg pieces need dark text */
+.v1-root.dark .v1-id-side,
+.v1-root.dark .v1-course,
+.v1-root.dark .v1-chip { color: var(--ink); }
+.v1-root.dark .v1-id-kv a { color: var(--ink); }
+
+/* projects stub / cert placeholder pattern */
+.v1-root.dark .v1-projrow-stub {
+  background-color: #3a2d5c;
+  background-image: repeating-linear-gradient(135deg, transparent 0 10px, rgba(255,255,255,0.07) 10px 11px);
+}
+.v1-root.dark .v1-projrow-featured.v1-projrow-stub { background-color: var(--accent-3); }
+.v1-root.dark .v1-cert-card:not(.v1-cert-card-filled) {
+  background-image: repeating-linear-gradient(135deg, transparent 0 10px, rgba(255,255,255,0.07) 10px 11px);
+}
+.v1-root.dark .v1-cert-line { background: #ece7d7; opacity: 0.18; }
+.v1-root.dark .v1-cert-thumb-wrap { background: #2a2040; }
+.v1-root.dark .v1-cert-verify { color: #ece7d7; }
+.v1-root.dark .v1-cert-foot { opacity: 0.75; }
+
+/* detail view surfaces inherit dark bg via .v1-root.dark color rule */
+.v1-root.dark .v1-footer { opacity: 0.75; }
+
+/* theme toggle in dark mode */
+.v1-root.dark .v1-theme-toggle {
+  background: var(--accent-3);
+  color: var(--ink);
+  border-color: var(--ink);
+}

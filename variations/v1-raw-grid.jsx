@@ -322,6 +322,17 @@ function V1RawGrid() {
   const [openProject, setOpenProjectState] = React.useState(() => projectFromHash(d));
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const rootRef = React.useRef(null);
+  const [theme, setTheme] = React.useState(() => {
+    try { return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'; }
+    catch (e) { return 'light'; }
+  });
+
+  React.useEffect(() => {
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+  }, [theme]);
+  const toggleTheme = () => setTheme(p => p === 'dark' ? 'light' : 'dark');
 
   React.useEffect(() => {
     // Deep-linked hash? Inject a clean base entry beneath so 'back' closes
@@ -347,7 +358,15 @@ function V1RawGrid() {
   const certs = t.showCertificates ? <V1Certificates title={t.certificatesTitle} items={d.certificates} /> : null;
 
   return (
-    <div ref={rootRef} className="v1-root">
+    <div ref={rootRef} className={`v1-root ${theme === 'dark' ? 'dark' : ''}`}>
+      <button
+        className="v1-theme-toggle"
+        onClick={toggleTheme}
+        aria-label="Toggle dark mode"
+        title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      >
+        {theme === 'dark' ? '☀ LIGHT' : '☾ DARK'}
+      </button>
       <div className="v1-marquee">
         <div className="v1-marquee-track">
           {Array.from({length: 10}).map((_, i) => (
